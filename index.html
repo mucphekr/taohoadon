@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Quản Lý Dịch Vụ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        .container { max-width: 800px; }
+        .card { border: none; }
+        .nav-tabs .nav-link { color: #6c757d; font-weight: 600; }
+        .nav-tabs .nav-link.active { color: #0d6efd; border-color: #dee2e6 #dee2e6 #fff; }
+        .form-label { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <h2 class="text-center mb-4">Công Cụ Quản Lý Dịch Vụ</h2>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button">Yêu Cầu Thanh Toán</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button">Xác Nhận Thanh Toán</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#refund-tab-pane" type="button">Hoàn Tiền Dịch Vụ</button></li>
+        </ul>
+        <div class="tab-content card" id="myTabContent">
+            <!-- TAB 1: YÊU CẦU -->
+            <div class="tab-pane fade show active p-4" id="request-tab-pane" role="tabpanel">
+                <form id="request-form">
+                    <h4 class="mb-3">Tạo Đơn Yêu Cầu Thanh Toán</h4>
+                    <div class="mb-3"><label for="req-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="req-ten-tk" required></div>
+                    <div class="mb-3"><label for="req-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="req-ten-dv" required></div>
+                    <div class="mb-3"><label for="req-ngay-dk" class="form-label">Ngày đăng ký (vd: 1562025):</label><input type="text" class="form-control" id="req-ngay-dk" required></div>
+                    <div class="mb-3"><label for="req-ngay-hh" class="form-label">Ngày hết hạn (vd: 1562026):</label><input type="text" class="form-control" id="req-ngay-hh" required></div>
+                    <div class="mb-3"><label for="req-so-tien" class="form-label">Số tiền cần thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="req-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
+                    <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN YÊU CẦU</button>
+                </form>
+                <p class="status text-center mt-2"></p>
+                <div class="output-container mt-3 d-none"><textarea readonly rows="9" class="form-control output-textarea"></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
+            </div>
+            <!-- TAB 2: XÁC NHẬN -->
+            <div class="tab-pane fade p-4" id="confirm-tab-pane" role="tabpanel">
+                 <form id="confirm-form">
+                    <h4 class="mb-3">Tạo Đơn Xác Nhận Thanh Toán</h4>
+                    <div class="mb-3"><label for="conf-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="conf-ten-tk" required></div>
+                    <div class="mb-3"><label for="conf-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="conf-ten-dv" required></div>
+                    <div class="mb-3"><label for="conf-ngay-dk" class="form-label">Ngày đăng ký (vd: 1562025):</label><input type="text" class="form-control" id="conf-ngay-dk" required></div>
+                    <div class="mb-3"><label for="conf-ngay-hh" class="form-label">Ngày hết hạn (vd: 1562026):</label><input type="text" class="form-control" id="conf-ngay-hh" required></div>
+                    <div class="mb-3"><label for="conf-so-tien" class="form-label">Số tiền đã thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="conf-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
+                    <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN XÁC NHẬN</button>
+                </form>
+                 <p class="status text-center mt-2"></p>
+                <div class="output-container mt-3 d-none"><textarea readonly rows="8" class="form-control output-textarea"></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
+            </div>
+            <!-- TAB 3: HOÀN TIỀN -->
+            <div class="tab-pane fade p-4" id="refund-tab-pane" role="tabpanel">
+                <form id="refundForm">
+                    <h4 class="mb-3">Tính Tiền Hoàn Lại Dịch Vụ</h4>
+                    <div class="mb-3"><label for="accountName" class="form-label">Tên tài khoản đăng ký:</label><input type="text" class="form-control" id="accountName" required></div>
+                    <div class="row">
+                        <div class="col-md-4"><div class="mb-3"><label for="startDate" class="form-label">Ngày bắt đầu:</label><input type="text" class="form-control" id="startDate" placeholder="1562025" required></div></div>
+                        <div class="col-md-4"><div class="mb-3"><label for="endDate" class="form-label">Ngày kết thúc:</label><input type="text" class="form-control" id="endDate" placeholder="1562026" required></div></div>
+                        <div class="col-md-4"><div class="mb-3"><label for="cancelDate" class="form-label">Ngày hủy:</label><input type="text" class="form-control" id="cancelDate" placeholder="10102025" required></div></div>
+                    </div>
+                    <div class="mb-3"><label for="totalAmount" class="form-label">Tổng số tiền dịch vụ:</label><div class="input-group"><input type="number" class="form-control" id="totalAmount" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
+                    <div class="text-center mb-3"><button type="submit" class="btn btn-primary btn-lg">Tính Hoàn Tiền & Tạo Ảnh</button></div>
+                </form>
+                <div id="result" class="alert d-none"></div>
+                <div class="output-container mt-3 d-none"><h5 class="mb-2">Nội dung gửi khách hàng:</h5><textarea id="customerMessage" class="form-control" rows="10" readonly></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
+                <div class="card mt-4">
+                    <div class="card-header bg-light"><h5 class="mb-0">Mẫu văn bản nhanh</h5></div>
+                    <div class="card-body">
+                        <div class="d-flex gap-2 mb-3">
+                            <button type="button" class="btn btn-outline-primary template-btn" data-template="notice">Lưu ý</button>
+                            <button type="button" class="btn btn-outline-primary template-btn" data-template="guide">Hướng dẫn</button>
+                        </div>
+                        <textarea id="templateText" class="form-control" rows="10" readonly></textarea>
+                        <button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép mẫu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- CÁC HÀM TIỆN ÍCH ---
+        const parseFlexibleDate = (dateStr) => {
+            if (!dateStr || dateStr.length < 6 || dateStr.length > 8) { throw new Error(`Định dạng ngày "${dateStr}" không hợp lệ.`); }
+            const year = dateStr.slice(-4);
+            const dayMonthPart = dateStr.slice(0, -4);
+            let day, month;
+            switch (dayMonthPart.length) {
+                case 4: day = dayMonthPart.substring(0, 2); month = dayMonthPart.substring(2, 4); break;
+                case 3: day = (parseInt(dayMonthPart.substring(1, 3)) <= 12) ? dayMonthPart.substring(0, 1) : dayMonthPart.substring(0, 2); month = (parseInt(dayMonthPart.substring(1, 3)) <= 12) ? dayMonthPart.substring(1, 3) : dayMonthPart.substring(2, 3); break;
+                case 2: day = dayMonthPart.substring(0, 1); month = dayMonthPart.substring(1, 2); break;
+                default: throw new Error("Định dạng ngày/tháng không đúng.");
+            }
+            const dayNum = parseInt(day), monthNum = parseInt(month);
+            if (dayNum < 1 || dayNum > 31 || monthNum < 1 || monthNum > 12) { throw new Error(`Ngày tháng không hợp lệ: ${day}/${month}/${year}`); }
+            return { day: dayNum, month: monthNum, year: parseInt(year) };
+        };
+        const toDateObject = (parsedDate) => new Date(Date.UTC(parsedDate.year, parsedDate.month - 1, parsedDate.day));
+        const formatDateString = (parsedDate) => `${String(parsedDate.day).padStart(2, '0')}/${String(parsedDate.month).padStart(2, '0')}/${parsedDate.year}`;
+
+        // --- HÀM VẼ ẢNH ---
+        const drawImage = (templateType, data) => {
+            const isRefund = templateType === 'refund';
+            const canvas = document.createElement('canvas');
+            canvas.width = 800;
+            canvas.height = isRefund ? 700 : 600;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const drawLine = y => { ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(canvas.width - 50, y); ctx.strokeStyle = '#CCCCCC'; ctx.lineWidth = 1; ctx.stroke(); };
+            const drawBankInfo = y => {
+                drawLine(y); y += 50; ctx.font = '22px Roboto'; ctx.fillStyle = '#1C1C1C';
+                ctx.fillText("Vui lòng thanh toán qua số tài khoản:", 80, y); y += 40;
+                const bank_details = "Shinhan 110-460-287056 NGUYEN BA VIET";
+                ctx.font = 'bold 22px Roboto'; ctx.fillStyle = '#d9534f';
+                const bankWidth = ctx.measureText(bank_details).width;
+                ctx.fillText(bank_details, (canvas.width - bankWidth) / 2, y);
+            };
+            let y_pos = 140, info, header_text;
+            if (isRefund) {
+                header_text = "THÔNG BÁO HOÀN TIỀN DỊCH VỤ";
+                ctx.font = 'bold 40px Roboto'; ctx.fillStyle = '#dc3545';
+                info = [["Tên tài khoản", data.accountName], ["Ngày bắt đầu dịch vụ", data.startDate], ["Ngày kết thúc dự kiến", data.endDate], ["Ngày yêu cầu hủy", data.cancelDate], ["Tổng số ngày dịch vụ", `${data.totalDays} ngày`], ["Số ngày đã sử dụng", `${data.usedDays} ngày`], ["Số ngày còn lại", `${data.remainingDays} ngày`], ["SỐ TIỀN ĐƯỢC HOÀN LẠI", data.refundAmountFormatted]];
+            } else {
+                let titleLabel;
+                if (templateType === 'req') {
+                    header_text = "YÊU CẦU THANH TOÁN DỊCH VỤ"; ctx.font = 'bold 40px Roboto'; ctx.fillStyle = '#0d6efd';
+                    titleLabel = "Số tiền cần thanh toán";
+                } else {
+                    header_text = "HOÁ ĐƠN XÁC NHẬN THANH TOÁN"; ctx.font = 'bold 40px Roboto'; ctx.fillStyle = '#198754';
+                    titleLabel = "Số tiền đã thanh toán";
+                }
+                info = [["Tên tài khoản", data.ten_tk], ["Tên dịch vụ", data.ten_dv], ["Ngày đăng ký", data.ngay_dk_formatted], ["Ngày hết hạn", data.ngay_hh_formatted], [titleLabel, data.so_tien_formatted]];
+            }
+            const textWidth = ctx.measureText(header_text).width;
+            ctx.fillText(header_text, (canvas.width - textWidth) / 2, 80);
+            drawLine(y_pos); y_pos += 50; ctx.fillStyle = '#1C1C1C';
+            info.forEach(([label, value], index) => {
+                const isLastItemRefund = isRefund && index === info.length - 1;
+                ctx.font = isLastItemRefund ? 'bold 26px Roboto' : 'bold 24px Roboto';
+                ctx.fillStyle = isLastItemRefund ? '#198754' : '#1C1C1C';
+                ctx.fillText(`${label}:`, 80, y_pos);
+                ctx.font = isLastItemRefund ? 'bold 26px Roboto' : '24px Roboto';
+                ctx.fillText(value, 420, y_pos); y_pos += 50;
+            });
+            y_pos += 20;
+            if (templateType === 'req') { drawBankInfo(y_pos); } 
+            else if (templateType === 'conf') {
+                drawLine(y_pos);
+                const thankYouText = "Cảm ơn anh chị đã đăng ký dịch vụ, chúc anh chị có những trải nghiệm thật tốt.";
+                ctx.font = 'italic 20px Roboto'; ctx.fillStyle = '#555';
+                const thankYouWidth = ctx.measureText(thankYouText).width;
+                ctx.fillText(thankYouText, (canvas.width - thankYouWidth) / 2, canvas.height - 40);
+            } else { drawLine(y_pos); }
+            const link = document.createElement('a'); link.download = data.fileName; link.href = canvas.toDataURL('image/png'); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        };
+        
+        // --- LOGIC XỬ LÝ FORM ---
+        const handleInvoiceSubmit = (form, prefix) => {
+            const parentPane = form.closest('.tab-pane');
+            const statusEl = parentPane.querySelector('.status');
+            const outputContainer = parentPane.querySelector('.output-container');
+            const outputTextarea = parentPane.querySelector('.output-textarea');
+
+            statusEl.textContent = "";
+            outputContainer.classList.add('d-none');
+            
+            try {
+                const ten_tk = form.querySelector(`#${prefix}-ten-tk`).value, ten_dv = form.querySelector(`#${prefix}-ten-dv`).value, ngay_dk_str = form.querySelector(`#${prefix}-ngay-dk`).value, ngay_hh_str = form.querySelector(`#${prefix}-ngay-hh`).value, so_tien_str = form.querySelector(`#${prefix}-so-tien`).value, currency = form.querySelector(`input[name="${prefix}-currency"]:checked`).value;
+                if (!ten_tk || !ten_dv || !ngay_dk_str || !ngay_hh_str || !so_tien_str) throw new Error("Vui lòng điền đầy đủ tất cả các trường.");
+                const ngay_dk_parsed = parseFlexibleDate(ngay_dk_str), ngay_hh_parsed = parseFlexibleDate(ngay_hh_str);
+                const ngay_dk_formatted = formatDateString(ngay_dk_parsed), ngay_hh_formatted = formatDateString(ngay_hh_parsed);
+                const amount = parseInt(so_tien_str); if (isNaN(amount)) throw new Error("Số tiền không hợp lệ.");
+                const formatter = new Intl.NumberFormat('de-DE'); const so_tien_formatted = currency === 'VNĐ' ? `${formatter.format(amount)} VNĐ` : `${formatter.format(amount)} WON`;
+                statusEl.textContent = "Đang xử lý...";
+                const dataForImage = { ten_tk, ten_dv, ngay_dk_formatted, ngay_hh_formatted, so_tien_formatted, fileName: `${prefix === 'req' ? 'YeuCauTT' : 'XacNhanTT'}_${ten_tk.replace(/[^a-zA-Z0-9]/g, '_')}_${ten_dv.replace(/[^a-zA-Z0-9]/g, '_')}.png` };
+                drawImage(prefix, dataForImage);
+                let textOutput = `Loại đơn: ${prefix === 'req' ? 'YÊU CẦU THANH TOÁN' : 'XÁC NHẬN THANH TOÁN'}\n---------------------------------\nTên tài khoản: ${ten_tk}\nTên dịch vụ: ${ten_dv}\nNgày đăng ký: ${ngay_dk_formatted}\nNgày hết hạn: ${ngay_hh_formatted}\nSố tiền: ${so_tien_str}\nĐơn vị: ${currency}\n---------------------------------\nNgày tạo: ${new Date().toLocaleDateString('vi-VN')}`.trim();
+                if (prefix === 'req') { textOutput += `\n---------------------------------\nTT Chuyển khoản: Shinhan 110-460-287056 NGUYEN BA VIET`; }
+                outputTextarea.value = textOutput;
+                outputContainer.classList.remove('d-none');
+                statusEl.textContent = "Đã tạo và tải xuống thành công!";
+            } catch (error) { alert(error.message); statusEl.textContent = "Có lỗi xảy ra. Vui lòng thử lại."; }
+        };
+
+        const handleRefundSubmit = (form) => {
+            const parentPane = form.closest('.tab-pane');
+            const resultDiv = parentPane.querySelector('#result');
+            const outputContainer = parentPane.querySelector('.output-container');
+            resultDiv.className = 'alert d-none';
+            outputContainer.classList.add('d-none');
+            try {
+                const accountName = form.querySelector('#accountName').value, startDateStr = form.querySelector('#startDate').value, endDateStr = form.querySelector('#endDate').value, cancelDateStr = form.querySelector('#cancelDate').value, totalAmount = parseFloat(form.querySelector('#totalAmount').value), currency = form.querySelector('input[name="refund-currency"]:checked').value;
+                if (!accountName || !startDateStr || !endDateStr || !cancelDateStr || isNaN(totalAmount)) throw new Error("Vui lòng điền đầy đủ và chính xác tất cả các trường.");
+                const start = parseFlexibleDate(startDateStr), end = parseFlexibleDate(endDateStr), cancel = parseFlexibleDate(cancelDateStr);
+                const startDateObj = toDateObject(start), endDateObj = toDateObject(end), cancelDateObj = toDateObject(cancel);
+                if (cancelDateObj < startDateObj || cancelDateObj > endDateObj) throw new Error("Ngày hủy phải nằm trong khoảng thời gian của dịch vụ.");
+                const totalDays = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24)) + 1;
+                let usedDays = Math.ceil((cancelDateObj - startDateObj) / (1000 * 60 * 60 * 24)); if (usedDays <= 0) usedDays = 1;
+                const remainingDays = totalDays - usedDays; if (totalDays <= 0) throw new Error("Khoảng thời gian dịch vụ không hợp lệ.");
+                const pricePerDay = totalAmount / totalDays; const refundAmount = Math.round(pricePerDay * remainingDays);
+                const formatter = new Intl.NumberFormat('de-DE'); const refundAmountFormatted = `${formatter.format(refundAmount)} ${currency}`;
+                resultDiv.innerHTML = `Khách hàng <strong>${accountName}</strong> đã sử dụng <strong>${usedDays}/${totalDays}</strong> ngày. Số tiền hoàn lại là: <strong>${refundAmountFormatted}</strong>`;
+                resultDiv.className = 'alert alert-info';
+                const customerMessage = `Chào bạn ${accountName},\nShop đã nhận được yêu cầu hủy dịch vụ của bạn.\n------------------------------------\n- Thời gian dịch vụ: Từ ${formatDateString(start)} đến ${formatDateString(end)} (${totalDays} ngày)\n- Ngày yêu cầu hủy: ${formatDateString(cancel)}\n- Số ngày đã sử dụng: ${usedDays} ngày\n- Số ngày còn lại: ${remainingDays} ngày\n- Tổng phí dịch vụ: ${formatter.format(totalAmount)} ${currency}\n- Phí mỗi ngày: ~${formatter.format(Math.round(pricePerDay))} ${currency}\n------------------------------------\n=> SỐ TIỀN HOÀN LẠI: ${refundAmountFormatted}\n\nVui lòng cung cấp thông tin tài khoản để shop tiến hành hoàn tiền.\nCảm ơn bạn.`;
+                document.getElementById('customerMessage').value = customerMessage;
+                outputContainer.classList.remove('d-none');
+                drawImage('refund', { accountName, startDate: formatDateString(start), endDate: formatDateString(end), cancelDate: formatDateString(cancel), totalDays, usedDays, remainingDays, refundAmountFormatted, fileName: `HoanTien_${accountName.replace(/[^a-zA-Z0-9]/g, '_')}.png` });
+            } catch (error) { resultDiv.innerHTML = `<strong>Lỗi:</strong> ${error.message}`; resultDiv.className = 'alert alert-danger'; }
+        };
+
+        // --- GẮN SỰ KIỆN ---
+        document.getElementById('request-form').addEventListener('submit', (e) => { e.preventDefault(); handleInvoiceSubmit(e.currentTarget, 'req'); });
+        document.getElementById('confirm-form').addEventListener('submit', (e) => { e.preventDefault(); handleInvoiceSubmit(e.currentTarget, 'conf'); });
+        document.getElementById('refundForm').addEventListener('submit', (e) => { e.preventDefault(); handleRefundSubmit(e.currentTarget); });
+        
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const textarea = e.currentTarget.previousElementSibling;
+                navigator.clipboard.writeText(textarea.value).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = 'Đã sao chép!';
+                    button.classList.remove('btn-secondary'); button.classList.add('btn-success');
+                    setTimeout(() => { button.textContent = originalText; button.classList.add('btn-secondary'); button.classList.remove('btn-success');}, 2000);
+                });
+            });
+        });
+
+        const quickTemplates = {
+            notice: `Do hiện tại Youtube đang quét xoá gói đăng ký rất gắt nên em có 2 hướng xử lý như sau :\nĐối với anh chị vẫn còn hạn sử dụng gói Premium bên em : \nPhương án 1 :  \n- Sử dụng bằng tài khoản dạng cấp sẵn, anh chị đăng nhập theo thông tin tài khoản được bên em cung cấp.\n1. Tài khoản cấp này chắc chắn có thể dùng ổn định nếu youtube có quét tiếp.\n2. Anh chị vẫn có thể đăng nhập được nhiều thiết bị để sử dụng.\n3. Không được đổi mật khẩu trong quá trình sử dụng, nếu lỗi phát sinh vui lòng nhắn tin cho em để được hỗ trợ fix lỗi.\nPhương án 2 : Nếu anh chị tiếp tục muốn sử dụng tài khoản chính chủ, em sẽ mời vào nhóm gia đình mới, nhưng có thể sẽ bị quét thường xuyên nên phải thường xuyên fix lỗi nếu bị mất premium.\nPhương án 3 : Không sử dụng dịch vụ nữa và hoàn tiền trên số ngày còn lại.\n\nĐối với anh chị là khách hàng mới :\n+) Cung cấp dịch vụ dưới dạng tài khoản cấp sẵn thời hạn 3 tháng, anh chị đăng nhập tài khoản theo thông tin được bên em gửi.\n+) Có thể đăng nhập nhiều thiết bị như tài khoản chính chủ của anh chị.\n+) Tuyệt đối không được thay đổi thông tin tài khoản, mật khẩu để bên e có thể dễ dàng xử lý nếu gặp lỗi.`,
+            guide: `Hướng dẫn đăng nhập tài khoản :\nBước 1 : Anh chị vào Youtube chọn thêm tài khoản khác\n             sau đó đăng nhập theo tài khoản và mật khẩu em cung cấp.\nBước 2 : Khi màn hình xuất hiện thông báo xác nhận từ thiết bị khác,\n            anh chị nhìn phía dưới màn hình sẽ có chữ Thử Cách Khác hãy chọn vào đó.\nBước 3 : Hãy lựa chọn  - Nhập mã xác minh từ ứng dụng Google Authenticator, \n           sau đó em sẽ cung cấp 6 mã số bảo mật cho anh chị. nhập vào là xong.`
+        };
+        const templateTextArea = document.getElementById('templateText');
+        document.querySelectorAll('.template-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                templateTextArea.value = quickTemplates[button.dataset.template];
+            });
+        });
+    });
+    </script>
+</body>
+</html>
