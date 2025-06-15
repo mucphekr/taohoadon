@@ -29,8 +29,8 @@
                     <h4 class="mb-3">Tạo Đơn Yêu Cầu Thanh Toán</h4>
                     <div class="mb-3"><label for="req-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="req-ten-tk" required></div>
                     <div class="mb-3"><label for="req-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="req-ten-dv" required></div>
-                    <div class="mb-3"><label for="req-ngay-dk" class="form-label">Ngày đăng ký ():</label><input type="text" class="form-control" id="req-ngay-dk" required></div>
-                    <div class="mb-3"><label for="req-ngay-hh" class="form-label">Ngày hết hạn ():</label><input type="text" class="form-control" id="req-ngay-hh" required></div>
+                    <div class="mb-3"><label for="req-ngay-dk" class="form-label">Ngày đăng ký :</label><input type="text" class="form-control" id="req-ngay-dk" required></div>
+                    <div class="mb-3"><label for="req-ngay-hh" class="form-label">Ngày hết hạn :</label><input type="text" class="form-control" id="req-ngay-hh" required></div>
                     <div class="mb-3"><label for="req-so-tien" class="form-label">Số tiền cần thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="req-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
                     <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN YÊU CẦU</button>
                 </form>
@@ -43,8 +43,8 @@
                     <h4 class="mb-3">Tạo Đơn Xác Nhận Thanh Toán</h4>
                     <div class="mb-3"><label for="conf-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="conf-ten-tk" required></div>
                     <div class="mb-3"><label for="conf-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="conf-ten-dv" required></div>
-                    <div class="mb-3"><label for="conf-ngay-dk" class="form-label">Ngày đăng ký ():</label><input type="text" class="form-control" id="conf-ngay-dk" required></div>
-                    <div class="mb-3"><label for="conf-ngay-hh" class="form-label">Ngày hết hạn ():</label><input type="text" class="form-control" id="conf-ngay-hh" required></div>
+                    <div class="mb-3"><label for="conf-ngay-dk" class="form-label">Ngày đăng ký :</label><input type="text" class="form-control" id="conf-ngay-dk" required></div>
+                    <div class="mb-3"><label for="conf-ngay-hh" class="form-label">Ngày hết hạn :</label><input type="text" class="form-control" id="conf-ngay-hh" required></div>
                     <div class="mb-3"><label for="conf-so-tien" class="form-label">Số tiền đã thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="conf-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
                     <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN XÁC NHẬN</button>
                 </form>
@@ -57,9 +57,9 @@
                     <h4 class="mb-3">Tính Tiền Hoàn Lại Dịch Vụ</h4>
                     <div class="mb-3"><label for="accountName" class="form-label">Tên tài khoản đăng ký:</label><input type="text" class="form-control" id="accountName" required></div>
                     <div class="row">
-                        <div class="col-md-4"><div class="mb-3"><label for="startDate" class="form-label">Ngày bắt đầu:</label><input type="text" class="form-control" id="startDate" placeholder="1562025" required></div></div>
-                        <div class="col-md-4"><div class="mb-3"><label for="endDate" class="form-label">Ngày kết thúc:</label><input type="text" class="form-control" id="endDate" placeholder="1562026" required></div></div>
-                        <div class="col-md-4"><div class="mb-3"><label for="cancelDate" class="form-label">Ngày hủy:</label><input type="text" class="form-control" id="cancelDate" placeholder="10102025" required></div></div>
+                        <div class="col-md-4"><div class="mb-3"><label for="startDate" class="form-label">Ngày bắt đầu:</label><input type="text" class="form-control" id="startDate" placeholder="" required></div></div>
+                        <div class="col-md-4"><div class="mb-3"><label for="endDate" class="form-label">Ngày kết thúc:</label><input type="text" class="form-control" id="endDate" placeholder="" required></div></div>
+                        <div class="col-md-4"><div class="mb-3"><label for="cancelDate" class="form-label">Ngày hủy:</label><input type="text" class="form-control" id="cancelDate" placeholder="" required></div></div>
                     </div>
                     <div class="mb-3"><label for="totalAmount" class="form-label">Tổng số tiền dịch vụ:</label><div class="input-group"><input type="number" class="form-control" id="totalAmount" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
                     <div class="text-center mb-3"><button type="submit" class="btn btn-primary btn-lg">Tính Hoàn Tiền & Tạo Ảnh</button></div>
@@ -67,7 +67,7 @@
                 <div id="result" class="alert d-none"></div>
                 <div class="output-container mt-3 d-none"><h5 class="mb-2">Nội dung gửi khách hàng:</h5><textarea id="customerMessage" class="form-control" rows="10" readonly></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
                 <div class="card mt-4">
-                    <div class="card-header bg-light"><h5 class="mb-0">Mẫu văn bản nhanh</h5></div>
+                    <div class="card-header bg-light"><h5 class="mb-0">Ghi chú</h5></div>
                     <div class="card-body">
                         <div class="d-flex gap-2 mb-3">
                             <button type="button" class="btn btn-outline-primary template-btn" data-template="notice">Lưu ý</button>
@@ -180,7 +180,8 @@
                 const dataForImage = { ten_tk, ten_dv, ngay_dk_formatted, ngay_hh_formatted, so_tien_formatted, fileName: `${prefix === 'req' ? 'YeuCauTT' : 'XacNhanTT'}_${ten_tk.replace(/[^a-zA-Z0-9]/g, '_')}_${ten_dv.replace(/[^a-zA-Z0-9]/g, '_')}.png` };
                 drawImage(prefix, dataForImage);
                 let textOutput = `Loại đơn: ${prefix === 'req' ? 'YÊU CẦU THANH TOÁN' : 'XÁC NHẬN THANH TOÁN'}\n---------------------------------\nTên tài khoản: ${ten_tk}\nTên dịch vụ: ${ten_dv}\nNgày đăng ký: ${ngay_dk_formatted}\nNgày hết hạn: ${ngay_hh_formatted}\nSố tiền: ${so_tien_str}\nĐơn vị: ${currency}\n---------------------------------\nNgày tạo: ${new Date().toLocaleDateString('vi-VN')}`.trim();
-                if (prefix === 'req') { textOutput += `\n---------------------------------\nTT Chuyển khoản: Shinhan 110-460-287056 NGUYEN BA VIET`; }
+                if (prefix === 'req') { textOutput += `\n---------------------------------\nTT Chuyển khoản: Hàn Quốc - Shinhan 110-460-287056 NGUYEN BA VIET`; }
+                                      { textOutput += `\n---------------------------------\nTT Chuyển khoản: Việt Nam Vietinbank 102-876-273095 NGUYEN BA VIET`; }
                 outputTextarea.value = textOutput;
                 outputContainer.classList.remove('d-none');
                 statusEl.textContent = "Đã tạo và tải xuống thành công!";
