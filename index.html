@@ -124,7 +124,7 @@
             if (isRefund) {
                 header_text = "THÔNG BÁO HOÀN TIỀN DỊCH VỤ";
                 ctx.font = 'bold 40px Roboto'; ctx.fillStyle = '#dc3545';
-                info = [["Tên tài khoản", data.accountName], ["Ngày bắt đầu dịch vụ", data.startDate], ["Ngày kết thúc dự kiến", data.endDate], ["Ngày yêu cầu hủy", data.cancelDate], ["Tổng số ngày dịch vụ", `${data.totalDays} ngày`], ["Số ngày đã sử dụng", `${data.usedDays} ngày`], ["Số ngày còn lại", `${data.remainingDays} ngày`], ["SỐ TIỀN ĐƯỢC HOÀN LẠI", data.refundAmountFormatted]];
+                info = [["Tên tài khoản", data.accountName], ["Ngày bắt đầu dịch vụ", data.startDate], ["Ngày kết thúc dự kiến", data.endDate], ["Ngày huỷ dịch vụ", data.cancelDate], ["Tổng số ngày dịch vụ", `${data.totalDays} ngày`], ["Số ngày đã sử dụng", `${data.usedDays} ngày`], ["Số ngày còn lại", `${data.remainingDays} ngày`], ["SỐ TIỀN ĐƯỢC HOÀN LẠI", data.refundAmountFormatted]];
             } else {
                 let titleLabel;
                 if (templateType === 'req') {
@@ -207,7 +207,7 @@
                 const formatter = new Intl.NumberFormat('de-DE'); const refundAmountFormatted = `${formatter.format(refundAmount)} ${currency}`;
                 resultDiv.innerHTML = `Khách hàng <strong>${accountName}</strong> đã sử dụng <strong>${usedDays}/${totalDays}</strong> ngày. Số tiền hoàn lại là: <strong>${refundAmountFormatted}</strong>`;
                 resultDiv.className = 'alert alert-info';
-                const customerMessage = `Chào bạn ${accountName},\nShop đã nhận được yêu cầu hủy dịch vụ của bạn.\n------------------------------------\n- Thời gian dịch vụ: Từ ${formatDateString(start)} đến ${formatDateString(end)} (${totalDays} ngày)\n- Ngày yêu cầu hủy: ${formatDateString(cancel)}\n- Số ngày đã sử dụng: ${usedDays} ngày\n- Số ngày còn lại: ${remainingDays} ngày\n- Tổng phí dịch vụ: ${formatter.format(totalAmount)} ${currency}\n- Phí mỗi ngày: ~${formatter.format(Math.round(pricePerDay))} ${currency}\n------------------------------------\n=> SỐ TIỀN HOÀN LẠI: ${refundAmountFormatted}\n\nVui lòng cung cấp thông tin tài khoản để shop tiến hành hoàn tiền.\nCảm ơn bạn.`;
+                const customerMessage = `Chào bạn ${accountName},\nDưới đây là thông tin đơn hàng của bạn .\n------------------------------------\n- Thời gian dịch vụ: Từ ${formatDateString(start)} đến ${formatDateString(end)} (${totalDays} ngày)\n- Ngày hủy dịch vụ: ${formatDateString(cancel)}\n- Số ngày đã sử dụng: ${usedDays} ngày\n- Số ngày còn lại: ${remainingDays} ngày\n- Tổng phí dịch vụ: ${formatter.format(totalAmount)} ${currency}\n- Phí mỗi ngày: ~${formatter.format(Math.round(pricePerDay))} ${currency}\n------------------------------------\n=> SỐ TIỀN HOÀN LẠI: ${refundAmountFormatted}\n\nVui lòng cung cấp thông tin tài khoản để shop tiến hành hoàn tiền.\nCảm ơn bạn.`;
                 document.getElementById('customerMessage').value = customerMessage;
                 outputContainer.classList.remove('d-none');
                 drawImage('refund', { accountName, startDate: formatDateString(start), endDate: formatDateString(end), cancelDate: formatDateString(cancel), totalDays, usedDays, remainingDays, refundAmountFormatted, fileName: `HoanTien_${accountName.replace(/[^a-zA-Z0-9]/g, '_')}.png` });
