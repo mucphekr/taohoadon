@@ -115,7 +115,8 @@
             const drawBankInfo = y => {
                 drawLine(y); y += 50; ctx.font = '22px Roboto'; ctx.fillStyle = '#1C1C1C';
                 ctx.fillText("Vui lòng thanh toán qua số tài khoản:", 80, y); y += 40;
-                const bank_details = "Shinhan 110-460-287056 NGUYEN BA VIET";
+                const bank_details = "Hàn Quốc - Shinhan 110-460-287056 NGUYEN BA VIET";
+                const bank_details = "Việt Nam - Vietinbank 102-876-273095 NGUYEN BA VIET";
                 ctx.font = 'bold 22px Roboto'; ctx.fillStyle = '#d9534f';
                 const bankWidth = ctx.measureText(bank_details).width;
                 ctx.fillText(bank_details, (canvas.width - bankWidth) / 2, y);
@@ -181,7 +182,7 @@
                 drawImage(prefix, dataForImage);
                 let textOutput = `Loại đơn: ${prefix === 'req' ? 'YÊU CẦU THANH TOÁN' : 'XÁC NHẬN THANH TOÁN'}\n---------------------------------\nTên tài khoản: ${ten_tk}\nTên dịch vụ: ${ten_dv}\nNgày đăng ký: ${ngay_dk_formatted}\nNgày hết hạn: ${ngay_hh_formatted}\nSố tiền: ${so_tien_str}\nĐơn vị: ${currency}\n---------------------------------\nNgày tạo: ${new Date().toLocaleDateString('vi-VN')}`.trim();
                 if (prefix === 'req') { textOutput += `\n---------------------------------\nTT Chuyển khoản: Hàn Quốc - Shinhan 110-460-287056 NGUYEN BA VIET`; }
-                                      { textOutput += `\n---------------------------------\nTT Chuyển khoản: Việt Nam Vietinbank 102-876-273095 NGUYEN BA VIET`; }
+                                      { textOutput += `\n---------------------------------\nTT Chuyển khoản: Việt Nam - Vietinbank 102-876-273095 NGUYEN BA VIET`; }
                 outputTextarea.value = textOutput;
                 outputContainer.classList.remove('d-none');
                 statusEl.textContent = "Đã tạo và tải xuống thành công!";
