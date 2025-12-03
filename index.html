@@ -5,80 +5,732 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công Cụ Quản Lý Dịch Vụ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f0f2f5; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
-        .container { max-width: 800px; }
-        .card { border: none; }
-        .nav-tabs .nav-link { color: #6c757d; font-weight: 600; }
-        .nav-tabs .nav-link.active { color: #0d6efd; border-color: #dee2e6 #dee2e6 #fff; }
-        .form-label { font-weight: 600; }
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+            --danger-gradient: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            padding: 20px 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { max-width: 850px; }
+
+        /* Header Style */
+        .main-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .main-header h2 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .main-header h2 i {
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tabs Styling */
+        .nav-tabs-wrapper {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .nav-tabs {
+            border: none;
+            background: var(--glass-bg);
+            border-radius: 20px 20px 0 0;
+            padding: 15px 15px 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs .nav-item {
+            flex: 1;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 14px 10px;
+            border-radius: 15px 15px 0 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tabs .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-tabs .nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: white;
+            background: var(--primary-gradient);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-tabs .nav-link.active::before {
+            display: none;
+        }
+
+        .nav-tabs .nav-link i {
+            font-size: 1.2rem;
+        }
+
+        /* Card & Tab Content */
+        .tab-content.card {
+            border: none;
+            border-radius: 0 0 25px 25px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .tab-pane {
+            padding: 30px !important;
+        }
+
+        /* Form Titles */
+        .tab-pane h4 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #request-tab-pane h4 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #confirm-tab-pane h4 {
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #refund-tab-pane h4 {
+            background: var(--danger-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Form Labels */
+        .form-label {
+            font-weight: 600;
+            color: #444;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-label i {
+            color: #667eea;
+        }
+
+        /* Form Inputs */
+        .form-control {
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        /* Input Group */
+        .input-group {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .input-group .form-control {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e8e8e8;
+            border-left: none;
+            padding: 8px 15px;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 14px 28px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            padding: 12px 24px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+            border: none;
+        }
+
+        /* Output Container */
+        .output-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .output-container h5 {
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .output-textarea, #customerMessage, #templateText {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: white;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Status Messages */
+        .status {
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            font-weight: 500;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+            color: #5a6fd6;
+            border-left: 5px solid #667eea;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(235, 51, 73, 0.15) 0%, rgba(244, 92, 67, 0.15) 100%);
+            color: #c0392b;
+            border-left: 5px solid #eb3349;
+        }
+
+        /* Ghi chú Card */
+        .card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border: none;
+        }
+
+        .card-header h5 {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 25px;
+            background: white;
+        }
+
+        /* Template Buttons */
+        .template-btn {
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+
+        .template-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Date Hint */
+        .date-hint {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border-radius: 10px;
+            padding: 12px 15px;
+            border-left: 4px solid #f2994a;
+        }
+
+        .date-hint small {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .date-hint code {
+            background: rgba(242, 153, 74, 0.2);
+            color: #d68910;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        /* Row spacing */
+        .row {
+            margin-left: -8px;
+            margin-right: -8px;
+        }
+
+        .row > [class*='col-'] {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        /* Decorative Elements */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 120px; height: 120px; top: 70%; left: 80%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 60px; height: 60px; top: 40%; left: 70%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 100px; height: 100px; top: 80%; left: 20%; animation-delay: 6s; }
+        .shape:nth-child(5) { width: 40px; height: 40px; top: 20%; left: 90%; animation-delay: 8s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs .nav-link {
+                font-size: 0.8rem;
+                padding: 10px 8px;
+            }
+            .nav-tabs .nav-link i {
+                display: none;
+            }
+            .main-header h2 {
+                font-size: 1.6rem;
+            }
+            .tab-pane {
+                padding: 20px !important;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
     <div class="container py-4">
-        <h2 class="text-center mb-4">Công Cụ Quản Lý Dịch Vụ</h2>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button">Yêu Cầu Thanh Toán</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button">Xác Nhận Thanh Toán</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#refund-tab-pane" type="button">Hoàn Tiền Dịch Vụ</button></li>
-        </ul>
+        <div class="main-header">
+            <h2><i class="bi bi-stars"></i> Công Cụ Quản Lý Dịch Vụ</h2>
+        </div>
+        
+        <div class="nav-tabs-wrapper">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#request-tab-pane" type="button">
+                        <i class="bi bi-send-fill"></i> Yêu Cầu Thanh Toán
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button">
+                        <i class="bi bi-check-circle-fill"></i> Xác Nhận Thanh Toán
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#refund-tab-pane" type="button">
+                        <i class="bi bi-arrow-counterclockwise"></i> Hoàn Tiền Dịch Vụ
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
         <div class="tab-content card" id="myTabContent">
             <!-- TAB 1: YÊU CẦU -->
             <div class="tab-pane fade show active p-4" id="request-tab-pane" role="tabpanel">
                 <form id="request-form">
-                    <h4 class="mb-3">Tạo Đơn Yêu Cầu Thanh Toán</h4>
-                    <div class="mb-3"><label for="req-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="req-ten-tk" required></div>
-                    <div class="mb-3"><label for="req-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="req-ten-dv" required></div>
-                    <div class="mb-3"><label for="req-ngay-dk" class="form-label">Ngày đăng ký :</label><input type="text" class="form-control" id="req-ngay-dk" placeholder="VD: 25122025" required></div>
-                    <div class="mb-3"><label for="req-ngay-hh" class="form-label">Ngày hết hạn :</label><input type="text" class="form-control" id="req-ngay-hh" placeholder="VD: 25122026" required><small class="text-muted d-block mt-1">💡 Định dạng: <strong>NGÀYTHÁNGNĂM</strong> (VD: 25/12/2025 → <code>25122025</code>)</small></div>
-                    <div class="mb-3"><label for="req-so-tien" class="form-label">Số tiền cần thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="req-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="req-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
-                    <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN YÊU CẦU</button>
+                    <h4><i class="bi bi-file-earmark-text"></i> Tạo Đơn Yêu Cầu Thanh Toán</h4>
+                    
+                    <div class="mb-3">
+                        <label for="req-ten-tk" class="form-label"><i class="bi bi-person"></i> Tên tài khoản:</label>
+                        <input type="text" class="form-control" id="req-ten-tk" placeholder="Nhập tên tài khoản khách hàng..." required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="req-ten-dv" class="form-label"><i class="bi bi-box-seam"></i> Tên dịch vụ:</label>
+                        <input type="text" class="form-control" id="req-ten-dv" placeholder="VD: Youtube Premium, Netflix..." required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="req-ngay-dk" class="form-label"><i class="bi bi-calendar-plus"></i> Ngày đăng ký:</label>
+                                <input type="text" class="form-control" id="req-ngay-dk" placeholder="VD: 25122025" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="req-ngay-hh" class="form-label"><i class="bi bi-calendar-x"></i> Ngày hết hạn:</label>
+                                <input type="text" class="form-control" id="req-ngay-hh" placeholder="VD: 25122026" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="date-hint mb-3">
+                        <small>💡 <strong>Định dạng ngày:</strong> NGÀYTHÁNGNĂM (không dấu, 6-8 số)<br>
+                        • <code>25122025</code> → 25/12/2025 &nbsp;|&nbsp; <code>7122025</code> → 7/12/2025 &nbsp;|&nbsp; <code>722026</code> → 7/2/2026</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="req-so-tien" class="form-label"><i class="bi bi-cash-stack"></i> Số tiền cần thanh toán:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="req-so-tien" placeholder="Nhập số tiền..." required>
+                            <div class="input-group-text">
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="req-currency" value="VNĐ" checked>
+                                    <label class="form-check-label">VNĐ</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="req-currency" value="WON">
+                                    <label class="form-check-label">WON</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-lightning-charge-fill"></i> TẠO ĐƠN YÊU CẦU
+                    </button>
                 </form>
-                <p class="status text-center mt-2"></p>
-                <div class="output-container mt-3 d-none"><textarea readonly rows="9" class="form-control output-textarea"></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
+                <p class="status text-center mt-3"></p>
+                <div class="output-container mt-3 d-none">
+                    <h5><i class="bi bi-file-text"></i> Kết quả:</h5>
+                    <textarea readonly rows="9" class="form-control output-textarea"></textarea>
+                    <button type="button" class="btn btn-secondary mt-3 w-100 copy-btn">
+                        <i class="bi bi-clipboard"></i> Sao chép
+                    </button>
+                </div>
             </div>
+            
             <!-- TAB 2: XÁC NHẬN -->
             <div class="tab-pane fade p-4" id="confirm-tab-pane" role="tabpanel">
-                 <form id="confirm-form">
-                    <h4 class="mb-3">Tạo Đơn Xác Nhận Thanh Toán</h4>
-                    <div class="mb-3"><label for="conf-ten-tk" class="form-label">Tên tài khoản:</label><input type="text" class="form-control" id="conf-ten-tk" required></div>
-                    <div class="mb-3"><label for="conf-ten-dv" class="form-label">Tên dịch vụ:</label><input type="text" class="form-control" id="conf-ten-dv" required></div>
-                    <div class="mb-3"><label for="conf-ngay-dk" class="form-label">Ngày đăng ký :</label><input type="text" class="form-control" id="conf-ngay-dk" placeholder="VD: 25122025" required></div>
-                    <div class="mb-3"><label for="conf-ngay-hh" class="form-label">Ngày hết hạn :</label><input type="text" class="form-control" id="conf-ngay-hh" placeholder="VD: 25122026" required><small class="text-muted d-block mt-1">💡 Định dạng: <strong>NGÀYTHÁNGNĂM</strong> (VD: 25/12/2025 → <code>25122026</code>)</small></div>
-                    <div class="mb-3"><label for="conf-so-tien" class="form-label">Số tiền đã thanh toán:</label><div class="input-group"><input type="number" class="form-control" id="conf-so-tien" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="conf-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
-                    <button type="submit" class="btn btn-primary w-100">TẠO ĐƠN XÁC NHẬN</button>
+                <form id="confirm-form">
+                    <h4><i class="bi bi-patch-check"></i> Tạo Đơn Xác Nhận Thanh Toán</h4>
+                    
+                    <div class="mb-3">
+                        <label for="conf-ten-tk" class="form-label"><i class="bi bi-person"></i> Tên tài khoản:</label>
+                        <input type="text" class="form-control" id="conf-ten-tk" placeholder="Nhập tên tài khoản khách hàng..." required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="conf-ten-dv" class="form-label"><i class="bi bi-box-seam"></i> Tên dịch vụ:</label>
+                        <input type="text" class="form-control" id="conf-ten-dv" placeholder="VD: Youtube Premium, Netflix..." required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="conf-ngay-dk" class="form-label"><i class="bi bi-calendar-plus"></i> Ngày đăng ký:</label>
+                                <input type="text" class="form-control" id="conf-ngay-dk" placeholder="VD: 25122025" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="conf-ngay-hh" class="form-label"><i class="bi bi-calendar-x"></i> Ngày hết hạn:</label>
+                                <input type="text" class="form-control" id="conf-ngay-hh" placeholder="VD: 25122026" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="date-hint mb-3">
+                        <small>💡 <strong>Định dạng ngày:</strong> NGÀYTHÁNGNĂM (không dấu, 6-8 số)<br>
+                        • <code>25122025</code> → 25/12/2025 &nbsp;|&nbsp; <code>7122025</code> → 7/12/2025 &nbsp;|&nbsp; <code>722026</code> → 7/2/2026</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="conf-so-tien" class="form-label"><i class="bi bi-cash-stack"></i> Số tiền đã thanh toán:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="conf-so-tien" placeholder="Nhập số tiền..." required>
+                            <div class="input-group-text">
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="conf-currency" value="VNĐ" checked>
+                                    <label class="form-check-label">VNĐ</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="conf-currency" value="WON">
+                                    <label class="form-check-label">WON</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-check2-all"></i> TẠO ĐƠN XÁC NHẬN
+                    </button>
                 </form>
-                 <p class="status text-center mt-2"></p>
-                <div class="output-container mt-3 d-none"><textarea readonly rows="8" class="form-control output-textarea"></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
+                <p class="status text-center mt-3"></p>
+                <div class="output-container mt-3 d-none">
+                    <h5><i class="bi bi-file-text"></i> Kết quả:</h5>
+                    <textarea readonly rows="8" class="form-control output-textarea"></textarea>
+                    <button type="button" class="btn btn-secondary mt-3 w-100 copy-btn">
+                        <i class="bi bi-clipboard"></i> Sao chép
+                    </button>
+                </div>
             </div>
+            
             <!-- TAB 3: HOÀN TIỀN -->
             <div class="tab-pane fade p-4" id="refund-tab-pane" role="tabpanel">
                 <form id="refundForm">
-                    <h4 class="mb-3">Tính Tiền Hoàn Lại Dịch Vụ</h4>
-                    <div class="mb-3"><label for="accountName" class="form-label">Tên tài khoản đăng ký:</label><input type="text" class="form-control" id="accountName" required></div>
-                    <div class="row">
-                        <div class="col-md-4"><div class="mb-3"><label for="startDate" class="form-label">Ngày bắt đầu:</label><input type="text" class="form-control" id="startDate" placeholder="VD: 25122025" required></div></div>
-                        <div class="col-md-4"><div class="mb-3"><label for="endDate" class="form-label">Ngày kết thúc:</label><input type="text" class="form-control" id="endDate" placeholder="VD: 25122026" required></div></div>
-                        <div class="col-md-4"><div class="mb-3"><label for="cancelDate" class="form-label">Ngày hủy:</label><input type="text" class="form-control" id="cancelDate" placeholder="VD: 03122025" required></div></div>
+                    <h4><i class="bi bi-arrow-repeat"></i> Tính Tiền Hoàn Lại Dịch Vụ</h4>
+                    
+                    <div class="mb-3">
+                        <label for="accountName" class="form-label"><i class="bi bi-person"></i> Tên tài khoản đăng ký:</label>
+                        <input type="text" class="form-control" id="accountName" placeholder="Nhập tên tài khoản..." required>
                     </div>
-                    <div class="mb-3"><small class="text-muted"><i class="bi bi-info-circle"></i> 💡 Định dạng ngày: <strong>NGÀYTHÁNGNĂM</strong> (không có dấu). Ví dụ: 25/12/2025 → nhập <code>25122025</code></small></div>
-                    <div class="mb-3"><label for="totalAmount" class="form-label">Tổng số tiền dịch vụ:</label><div class="input-group"><input type="number" class="form-control" id="totalAmount" required><div class="input-group-text"><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="VNĐ" checked><label class="form-check-label">VNĐ</label></div><div class="form-check form-check-inline mb-0"><input class="form-check-input" type="radio" name="refund-currency" value="WON"><label class="form-check-label">WON</label></div></div></div></div>
-                    <div class="text-center mb-3"><button type="submit" class="btn btn-primary btn-lg">Tính Hoàn Tiền & Tạo Ảnh</button></div>
-                </form>
-                <div id="result" class="alert d-none"></div>
-                <div class="output-container mt-3 d-none"><h5 class="mb-2">Nội dung gửi khách hàng:</h5><textarea id="customerMessage" class="form-control" rows="10" readonly></textarea><button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép</button></div>
-                <div class="card mt-4">
-                    <div class="card-header bg-light"><h5 class="mb-0">Ghi chú</h5></div>
-                    <div class="card-body">
-                        <div class="d-flex gap-2 mb-3">
-                            <button type="button" class="btn btn-outline-primary template-btn" data-template="notice">Lưu ý</button>
-                            <button type="button" class="btn btn-outline-primary template-btn" data-template="guide">Hướng dẫn</button>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label"><i class="bi bi-calendar-event"></i> Ngày bắt đầu:</label>
+                                <input type="text" class="form-control" id="startDate" placeholder="VD: 7122025" required>
+                            </div>
                         </div>
-                        <textarea id="templateText" class="form-control" rows="10" readonly></textarea>
-                        <button type="button" class="btn btn-secondary mt-2 w-100 copy-btn">Sao chép mẫu</button>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label"><i class="bi bi-calendar-check"></i> Ngày kết thúc:</label>
+                                <input type="text" class="form-control" id="endDate" placeholder="VD: 25122026" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="cancelDate" class="form-label"><i class="bi bi-calendar-minus"></i> Ngày hủy:</label>
+                                <input type="text" class="form-control" id="cancelDate" placeholder="VD: 03122025" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="date-hint mb-3">
+                        <small>💡 <strong>Định dạng ngày:</strong> NGÀYTHÁNGNĂM (không dấu, 6-8 số)<br>
+                        • <code>25122025</code> → 25/12/2025 &nbsp;|&nbsp; <code>7122025</code> → 7/12/2025 &nbsp;|&nbsp; <code>722026</code> → 7/2/2026</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="totalAmount" class="form-label"><i class="bi bi-cash-stack"></i> Tổng số tiền dịch vụ:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="totalAmount" placeholder="Nhập tổng số tiền..." required>
+                            <div class="input-group-text">
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="refund-currency" value="VNĐ" checked>
+                                    <label class="form-check-label">VNĐ</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input" type="radio" name="refund-currency" value="WON">
+                                    <label class="form-check-label">WON</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-calculator"></i> Tính Hoàn Tiền & Tạo Ảnh
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="result" class="alert d-none"></div>
+                
+                <div class="output-container mt-3 d-none">
+                    <h5><i class="bi bi-chat-left-text"></i> Nội dung gửi khách hàng:</h5>
+                    <textarea id="customerMessage" class="form-control" rows="10" readonly></textarea>
+                    <button type="button" class="btn btn-secondary mt-3 w-100 copy-btn">
+                        <i class="bi bi-clipboard"></i> Sao chép
+                    </button>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-journal-text"></i> Ghi chú mẫu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                            <button type="button" class="btn btn-outline-primary template-btn" data-template="notice">
+                                <i class="bi bi-exclamation-triangle"></i> Lưu ý
+                            </button>
+                            <button type="button" class="btn btn-outline-primary template-btn" data-template="guide">
+                                <i class="bi bi-book"></i> Hướng dẫn
+                            </button>
+                        </div>
+                        <textarea id="templateText" class="form-control" rows="10" readonly placeholder="Chọn mẫu ghi chú ở trên..."></textarea>
+                        <button type="button" class="btn btn-secondary mt-3 w-100 copy-btn">
+                            <i class="bi bi-clipboard"></i> Sao chép mẫu
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <small style="color: rgba(255,255,255,0.8);">
+                <i class="bi bi-heart-fill" style="color: #ff6b6b;"></i> Made by Mực Phệ
+            </small>
         </div>
     </div>
 
@@ -87,19 +739,46 @@
     document.addEventListener('DOMContentLoaded', () => {
         // --- CÁC HÀM TIỆN ÍCH ---
         const parseFlexibleDate = (dateStr) => {
-            if (!dateStr || dateStr.length < 6 || dateStr.length > 8) { throw new Error(`Định dạng ngày "${dateStr}" không hợp lệ.`); }
+            if (!dateStr || dateStr.length < 6 || dateStr.length > 8) { 
+                throw new Error(`Định dạng ngày "${dateStr}" không hợp lệ. Độ dài phải từ 6-8 ký tự.`); 
+            }
+            
             const year = dateStr.slice(-4);
             const dayMonthPart = dateStr.slice(0, -4);
             let day, month;
+            
             switch (dayMonthPart.length) {
-                case 4: day = dayMonthPart.substring(0, 2); month = dayMonthPart.substring(2, 4); break;
-                case 3: day = (parseInt(dayMonthPart.substring(1, 3)) <= 12) ? dayMonthPart.substring(0, 1) : dayMonthPart.substring(0, 2); month = (parseInt(dayMonthPart.substring(1, 3)) <= 12) ? dayMonthPart.substring(1, 3) : dayMonthPart.substring(2, 3); break;
-                case 2: day = dayMonthPart.substring(0, 1); month = dayMonthPart.substring(1, 2); break;
-                default: throw new Error("Định dạng ngày/tháng không đúng.");
+                case 4: // DDMM - ví dụ: 25122025 → 25/12/2025
+                    day = dayMonthPart.substring(0, 2);
+                    month = dayMonthPart.substring(2, 4);
+                    break;
+                case 3: // DMM hoặc DDM
+                    // Ưu tiên DMM trước (ví dụ: 7122025 → 7/12/2025)
+                    const possibleMonth2Digit = parseInt(dayMonthPart.substring(1, 3));
+                    if (possibleMonth2Digit >= 1 && possibleMonth2Digit <= 12) {
+                        // DMM: ngày 1 chữ số, tháng 2 chữ số
+                        day = dayMonthPart.substring(0, 1);
+                        month = dayMonthPart.substring(1, 3);
+                    } else {
+                        // DDM: ngày 2 chữ số, tháng 1 chữ số (ví dụ: 1512025 → 15/1/2025)
+                        day = dayMonthPart.substring(0, 2);
+                        month = dayMonthPart.substring(2, 3);
+                    }
+                    break;
+                case 2: // DM - ví dụ: 722026 → 7/2/2026
+                    day = dayMonthPart.substring(0, 1);
+                    month = dayMonthPart.substring(1, 2);
+                    break;
+                default: 
+                    throw new Error("Định dạng ngày/tháng không đúng.");
             }
-            const dayNum = parseInt(day), monthNum = parseInt(month);
-            if (dayNum < 1 || dayNum > 31 || monthNum < 1 || monthNum > 12) { throw new Error(`Ngày tháng không hợp lệ: ${day}/${month}/${year}`); }
-            return { day: dayNum, month: monthNum, year: parseInt(year) };
+            
+            const dayNum = parseInt(day), monthNum = parseInt(month), yearNum = parseInt(year);
+            if (dayNum < 1 || dayNum > 31) { throw new Error(`Ngày không hợp lệ: ${dayNum}`); }
+            if (monthNum < 1 || monthNum > 12) { throw new Error(`Tháng không hợp lệ: ${monthNum}`); }
+            if (yearNum < 2000 || yearNum > 2100) { throw new Error(`Năm không hợp lệ: ${yearNum}`); }
+            
+            return { day: dayNum, month: monthNum, year: yearNum };
         };
         const toDateObject = (parsedDate) => new Date(Date.UTC(parsedDate.year, parsedDate.month - 1, parsedDate.day));
         const formatDateString = (parsedDate) => `${String(parsedDate.day).padStart(2, '0')}/${String(parsedDate.month).padStart(2, '0')}/${parsedDate.year}`;
@@ -177,15 +856,16 @@
                 const ngay_dk_formatted = formatDateString(ngay_dk_parsed), ngay_hh_formatted = formatDateString(ngay_hh_parsed);
                 const amount = parseInt(so_tien_str); if (isNaN(amount)) throw new Error("Số tiền không hợp lệ.");
                 const formatter = new Intl.NumberFormat('de-DE'); const so_tien_formatted = currency === 'VNĐ' ? `${formatter.format(amount)} VNĐ` : `${formatter.format(amount)} WON`;
-                statusEl.textContent = "Đang xử lý...";
+                statusEl.textContent = "⏳ Đang xử lý...";
                 const dataForImage = { ten_tk, ten_dv, ngay_dk_formatted, ngay_hh_formatted, so_tien_formatted, fileName: `${prefix === 'req' ? 'YeuCauTT' : 'XacNhanTT'}_${ten_tk.replace(/[^a-zA-Z0-9]/g, '_')}_${ten_dv.replace(/[^a-zA-Z0-9]/g, '_')}.png` };
                 drawImage(prefix, dataForImage);
                 let textOutput = `Loại đơn: ${prefix === 'req' ? 'YÊU CẦU THANH TOÁN' : 'XÁC NHẬN THANH TOÁN'}\n---------------------------------\nTên tài khoản: ${ten_tk}\nTên dịch vụ: ${ten_dv}\nNgày đăng ký: ${ngay_dk_formatted}\nNgày hết hạn: ${ngay_hh_formatted}\nSố tiền: ${so_tien_str}\nĐơn vị: ${currency}\n---------------------------------\nNgày tạo: ${new Date().toLocaleDateString('vi-VN')}`.trim();
                 if (prefix === 'req') { textOutput += `\n---------------------------------\nTT Chuyển khoản: Hàn Quốc - Shinhan 110-460-287056 NGUYEN BA VIET`; }                
                 outputTextarea.value = textOutput;
                 outputContainer.classList.remove('d-none');
-                statusEl.textContent = "Đã tạo và tải xuống thành công!";
-            } catch (error) { alert(error.message); statusEl.textContent = "Có lỗi xảy ra. Vui lòng thử lại."; }
+                statusEl.innerHTML = "✅ Đã tạo và tải xuống thành công!";
+                statusEl.style.color = "#198754";
+            } catch (error) { alert(error.message); statusEl.textContent = "❌ Có lỗi xảy ra. Vui lòng thử lại."; statusEl.style.color = "#dc3545"; }
         };
 
         const handleRefundSubmit = (form) => {
@@ -205,13 +885,13 @@
                 const remainingDays = totalDays - usedDays; if (totalDays <= 0) throw new Error("Khoảng thời gian dịch vụ không hợp lệ.");
                 const pricePerDay = totalAmount / totalDays; const refundAmount = Math.round(pricePerDay * remainingDays);
                 const formatter = new Intl.NumberFormat('de-DE'); const refundAmountFormatted = `${formatter.format(refundAmount)} ${currency}`;
-                resultDiv.innerHTML = `Khách hàng <strong>${accountName}</strong> đã sử dụng <strong>${usedDays}/${totalDays}</strong> ngày. Số tiền hoàn lại là: <strong>${refundAmountFormatted}</strong>`;
+                resultDiv.innerHTML = `<i class="bi bi-info-circle-fill"></i> Khách hàng <strong>${accountName}</strong> đã sử dụng <strong>${usedDays}/${totalDays}</strong> ngày. Số tiền hoàn lại là: <strong>${refundAmountFormatted}</strong>`;
                 resultDiv.className = 'alert alert-info';
                 const customerMessage = `Chào bạn ${accountName},\nDưới đây là thông tin đơn hàng của bạn .\n------------------------------------\n- Thời gian dịch vụ: Từ ${formatDateString(start)} đến ${formatDateString(end)} (${totalDays} ngày)\n- Ngày hủy dịch vụ: ${formatDateString(cancel)}\n- Số ngày đã sử dụng: ${usedDays} ngày\n- Số ngày còn lại: ${remainingDays} ngày\n- Tổng phí dịch vụ: ${formatter.format(totalAmount)} ${currency}\n- Phí mỗi ngày: ~${formatter.format(Math.round(pricePerDay))} ${currency}\n------------------------------------\n=> SỐ TIỀN HOÀN LẠI: ${refundAmountFormatted}\n\nVui lòng cung cấp thông tin tài khoản để shop tiến hành hoàn tiền.\nCảm ơn bạn.`;
                 document.getElementById('customerMessage').value = customerMessage;
                 outputContainer.classList.remove('d-none');
                 drawImage('refund', { accountName, startDate: formatDateString(start), endDate: formatDateString(end), cancelDate: formatDateString(cancel), totalDays, usedDays, remainingDays, refundAmountFormatted, fileName: `HoanTien_${accountName.replace(/[^a-zA-Z0-9]/g, '_')}.png` });
-            } catch (error) { resultDiv.innerHTML = `<strong>Lỗi:</strong> ${error.message}`; resultDiv.className = 'alert alert-danger'; }
+            } catch (error) { resultDiv.innerHTML = `<i class="bi bi-exclamation-triangle-fill"></i> <strong>Lỗi:</strong> ${error.message}`; resultDiv.className = 'alert alert-danger'; }
         };
 
         // --- GẮN SỰ KIỆN ---
@@ -223,10 +903,10 @@
             button.addEventListener('click', (e) => {
                 const textarea = e.currentTarget.previousElementSibling;
                 navigator.clipboard.writeText(textarea.value).then(() => {
-                    const originalText = button.textContent;
-                    button.textContent = 'Đã sao chép!';
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="bi bi-check2"></i> Đã sao chép!';
                     button.classList.remove('btn-secondary'); button.classList.add('btn-success');
-                    setTimeout(() => { button.textContent = originalText; button.classList.add('btn-secondary'); button.classList.remove('btn-success');}, 2000);
+                    setTimeout(() => { button.innerHTML = originalText; button.classList.add('btn-secondary'); button.classList.remove('btn-success');}, 2000);
                 });
             });
         });
